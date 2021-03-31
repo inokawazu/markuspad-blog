@@ -1,15 +1,42 @@
 from flask import (Flask, render_template, session, 
                    request, flash, redirect, url_for)
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
-DATABASE = './blog.db'
+# Configurations 
 SECRET_KEY = 'sample key'
 USERNAME = 'user'
 PASSWORD = 'bananacar'
 DEBUG = True
+SQLALCHEMY_DATABASE_URI= 'sqlite:///posts.db'
 
 # Create App
 app = Flask(__name__)
 app.config.from_object(__name__)
+db = SQLAlchemy(app)
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    pub_date = db.Column(db.DateTime, nullable=False,
+        default=datetime.utcnow)
+
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'),
+        nullable=False)
+    category = db.relationship('Category',
+        backref=db.backref('posts', lazy=True))
+
+    def __repr__(self):
+        return '<Post %r>' % self.title
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return '<Category %r>' % self.name
 
 # This is the home-page
 @app.route('/')
@@ -31,7 +58,7 @@ def blog_page():
 def about_page():
    return render_template('about.html')
 
-#Session - (Inspired by https://github.com/QuadPiece/flask-blog/blob/master/exec.py)
+#Session(login and logout) - (Inspired by https://github.com/QuadPiece/flask-blog/blob/master/exec.py)
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
   error = None
