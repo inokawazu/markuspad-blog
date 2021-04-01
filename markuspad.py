@@ -6,9 +6,10 @@ from datetime import datetime
 # Configurations 
 SECRET_KEY = 'sample key'
 USERNAME = 'user'
-PASSWORD = 'bananacar'
+PASSWORD = 'pass'
 DEBUG = True
-SQLALCHEMY_DATABASE_URI= 'sqlite:///posts.db'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///posts.db'
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 # Create App
 app = Flask(__name__)
@@ -58,7 +59,28 @@ def blog_page():
 def about_page():
    return render_template('about.html')
 
+# Make and edit Posts
+@app.route('/make/')
+def make_post_page():
+    pass
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 #Session(login and logout) - (Inspired by https://github.com/QuadPiece/flask-blog/blob/master/exec.py)
+
+@app.errorhandler(403)
+def page_not_found(e):
+    return render_template('403.html'), 403
+
+#Decorator to require login to views.
+def require_login(func):
+    def func_with_login(*args, **kwargs):
+        if not session['logged_in']:
+            return render_template('403.html')
+        return func(*args, **kwargs)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
   error = None
@@ -72,6 +94,22 @@ def login_page():
       flash('You were logged in')
       return redirect(url_for('index'))
   return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout_page():
+  error = None
+  if session['logged_in']:
+      session['logged_in'] = False
+      flash('You were logged out')
+      return redirect(url_for('index'))
+  else:
+      error = "You have needed to be logged in to log out"
+  return render_template('login.html', error=error)
+
+# Editing, Creating, Deleting Posts
+@app.route('/edit/<slug>')
+def edit_post():
+    pass
 
 # this is the main fucntion. 
 # Make sure to set debug to False in production.

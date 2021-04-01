@@ -68,6 +68,9 @@
                     <li><a href="research">Research</a></li>	
                     <li><a href="blog">Blog</a></li>	
                     <li><a href="about">About Me</a></li>
+                    {% if session['logged_in'] %} 
+                    <li><a href="logout">Log Out</a></li>
+                    {% endif %} 
                 </ul> <!-- end #nav -->
 
            </div> 
