@@ -52,7 +52,7 @@
 
             <div class="s-header__content column">
                 <h1 class="s-header__logotext">
-                    <a href="index.html" title="">Markus Pad</a>
+                    <a href="/" title="">Markus Pad</a>
                 </h1>
                 <p class="s-header__tagline">The floating point in spacetime.</p>
             </div>
@@ -64,12 +64,18 @@
            <div class="row">
 
                 <ul class="s-header__nav">
-                    <li><a href="">Home</a></li>	
-                    <li><a href="research">Research</a></li>	
-                    <li><a href="blog">Blog</a></li>	
-                    <li><a href="about">About Me</a></li>
+                    <li><a href="/">Home</a></li>	
+                    <li class="has-children"><a href="#0">Blog</a>
+                        <ul>
+                            {% for head_cat in categories %}
+                            <li><a href={{ "/" + head_cat.name }}>{{ head_cat.name.capitalize() }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <li><a href="/about">About Me</a></li>
                     {% if session['logged_in'] %} 
-                    <li><a href="logout">Log Out</a></li>
+                    <li><a href="/make">Create Post</a></li>
+                    <li><a href="/logout">Log Out</a></li>
                     {% endif %} 
                 </ul> <!-- end #nav -->
 
@@ -81,7 +87,11 @@
 
     </header> <!-- Header End -->
 
+<div class="s-content">
+      
     {% block content %}{% endblock %}
+
+</div> <!-- end content-wrap -->
 
     <!-- Footer
     ================================================== -->

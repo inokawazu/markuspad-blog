@@ -4,6 +4,7 @@
     <!-- Content
     ================================================== -->
 	{% for post in posts %}
+    {% if post.category.name == category %}
         <div class="row">
 
             <div id="main" class="s-content__main large-8 column">
@@ -35,5 +36,6 @@
            </div> <!-- end main -->
 
        </div> <!-- end row -->
+  {% endif %}
 	{% endfor %}	
 {% endblock %}

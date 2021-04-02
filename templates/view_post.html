@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Content
+    ================================================== -->
+    <div class="row">
+
+        <div id="main" class="s-content__main large-8 column">
+
+            <article class="entry">
+
+                <header class="entry__header">
+
+                    <h2 class="entry__title h1">
+                        <a href={{ "/" + post.category.name + "/" + post.slug }} title="">{{ post.title }}</a>
+                    </h2>
+
+                    <div class="entry__meta">
+                        <ul>
+                            <li>{{ post.pub_date }}</li>
+                            <li><a href={{ "/" + post.category.name }} title="" rel="category tag">{{ post.category.name }}</a></li>
+
+                    {% if session["logged_in"] %}
+
+                            <li><a href={{ "/edit/"+post.slug }} title="" rel="category tag">edit</a></li>
+
+                    {% endif %}
+                        </ul>
+                    </div>
+                </header>
+                
+                <div class="entry__content">
+                    {{ post.body | safe }}
+                </div> 
+
+            </article> <!-- end entry -->
+
+       </div> <!-- end main -->
+
+   </div> <!-- end row -->
+{% endblock %}
