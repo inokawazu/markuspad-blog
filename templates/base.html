@@ -65,25 +65,25 @@
 
                 <ul class="s-header__nav">
                     <li><a href="/">Home</a></li>	
-                    <li class="has-children"><a href="#0">Blog</a>
-                        <ul>
-                            {% for head_cat in categories %}
-                            <li><a href={{ "/" + head_cat.name }}>{{ head_cat.name.capitalize() }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
+                    <!-- {% if categories %} -->
+                    <!--     <li class="has-children"><a href="#0">Posts</a> -->
+                    <!--         <ul> -->
+                    <!--             {% for head_cat in categories %} -->
+                    <!--                 <li><a href={{ "/" + head_cat.name }}>{{ head_cat.name.capitalize() }}</a></li> -->
+                    <!--             {% endfor %} -->
+                    <!--         </ul> -->
+                    <!--     </li> -->
+                    <!-- {% endif %} --> 
                     <li><a href="/about">About Me</a></li>
                     {% if session['logged_in'] %} 
-                    <li><a href="/make">Create Post</a></li>
-                    <li><a href="/logout">Log Out</a></li>
+                        <li><a href="/make">Create Post</a></li>
+                        <li><a href="/logout">Log Out</a></li>
                     {% endif %} 
                 </ul> <!-- end #nav -->
 
            </div> 
 
         </nav> <!-- end #nav-wrap -->
-
-        <!-- <a class="header-menu-toggle" href="#0" title="Menu"><span>Menu</span></a> -->
 
     </header> <!-- Header End -->
 

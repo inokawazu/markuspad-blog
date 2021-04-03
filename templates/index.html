@@ -18,12 +18,13 @@
 
                         <div class="entry__meta">
                             <ul>
-                                <li>{{ post.pub_date }}</li>
-                                <li><a href={{ "/" + post.category.name }} title="" rel="category tag">{{ post.category.name }}</a></li>
+                                <li>{{ post.pub_date.strftime("%A, %d. %B %Y") }}</li>
+                                <li><a href={{ "/"+post.category.name }} title="" rel="category tag">{{ post.category.name }}</a></li>
 
                         {% if session["logged_in"] %}
 
                                 <li><a href={{ "/edit/"+post.slug }} title="" rel="category tag">edit</a></li>
+                                <li><a href={{ "/delete/"+post.slug }} title="" rel="category tag">DELETE</a></li>
 
                         {% endif %}
                             </ul>

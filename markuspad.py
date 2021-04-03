@@ -44,7 +44,7 @@ class Category(db.Model):
 @app.route('/')
 def index():
     posts = Post.query.all()
-    return render_template('index.html', posts = posts, categories=get_all_categories())
+    return render_template('index.html', posts = reversed(posts), categories=get_all_categories())
 
 # This is the about-page
 @app.route('/about')
@@ -120,6 +120,7 @@ def editpost(slug):
        post.slug = slugify(request.form['slug'])
        post.body = request.form['body']
        post.category = category
+       db.session.add(post)
        db.session.commit()
 
        return redirect(url_for('index'))
@@ -161,6 +162,22 @@ def createpost():
        return redirect(url_for('index'))
    else:
        return render_template('make_edits.html', post=post, action='/make', categories=get_all_categories())
+
+@app.route('/delete/<slug>')
+def delete_post(slug):
+    post = Post.query.filter_by(slug=slug).first_or_404()
+
+    db.session.delete(post)
+    db.session.delete(post)
+    
+    category = Category.query.filter_by(name=post.category.name).first()
+    if not category:
+        db.session.delete(category)
+
+    db.session.commit()
+
+    return redirect(url_for('index'))
+    
 
 # This is the view page for categories
 @app.route('/<category>')

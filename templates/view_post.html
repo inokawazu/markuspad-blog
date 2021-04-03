@@ -17,7 +17,7 @@
 
                     <div class="entry__meta">
                         <ul>
-                            <li>{{ post.pub_date }}</li>
+                            <li>{{ post.pub_date.strftime("%A, %d. %B %Y") }}</li>
                             <li><a href={{ "/" + post.category.name }} title="" rel="category tag">{{ post.category.name }}</a></li>
 
                     {% if session["logged_in"] %}
